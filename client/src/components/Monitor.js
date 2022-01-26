@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-const Monitor = ({param1, param2, opt}) => {
+const Monitor = ({param1, param2, opt, isParam1Done}) => {
     const [mathText, setMathText] = useState("");
 
     useEffect(() =>{
@@ -15,7 +15,7 @@ const Monitor = ({param1, param2, opt}) => {
     return (
         <div>
             <span>{mathText}</span>
-            <span>{param2 ? param2 : param1 }</span>
+            <span>{isParam1Done ? param2 : param1 }</span>
         </div>
     );
 }

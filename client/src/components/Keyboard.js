@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "antd";
-
+import { add, minus, divide, multiple, square, squareRoot } from "../actions";
 const Keyboard = ({
   setParam1,
   setParam2,
@@ -9,7 +9,60 @@ const Keyboard = ({
   param1,
   param2,
   setIsParam1Done,
+  opt
 }) => {
+  useEffect(() => {
+    if (opt) {
+      if (!param1) {
+        setIsParam1Done(true);
+      }
+      switch (opt) {
+        case "square_root":
+          if (param1) {
+            setParam1(squareRoot(param1));
+            setIsParam1Done(true);
+          }
+          break;
+        case "square":
+          if (param1) {
+            setParam1(square(param1));
+            setIsParam1Done(true);
+          }
+          break;
+        case "add":
+          if (isParam1Done) {
+            setParam1(add(param1, param2));
+          } else {
+            setIsParam1Done(true);
+          }
+          break;
+        case "minus":
+          if (isParam1Done) {
+            setParam1(minus(param1, param2));
+          } else {
+            setIsParam1Done(true);
+          }
+          break;
+        case "multiple":
+          if (isParam1Done) {
+            setParam1(multiple(param1, param2));
+          } else {
+            setIsParam1Done(true);
+          }
+          break;
+        case "divide":
+          if (isParam1Done) {
+            setParam1(divide(param1, param2));
+          } else {
+            setIsParam1Done(true);
+          }
+          break;
+        default:
+          break;
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [opt]);
   const onNumClick = (num) => {
     if (isParam1Done) {
       param2 ? setParam2(num) : setParam2(parseInt(param2) * 10 + num);
@@ -17,6 +70,23 @@ const Keyboard = ({
       param1 ? setParam1(num) : setParam1(parseInt(param1) * 10 + num);
     }
   };
+
+  const onDelete = () => {
+    if (isParam1Done) {
+      param2 > 9 ? setParam2(param2/10) : setParam2(0)
+    } else {
+      param1 > 9 ? setParam1(param1/10) : setParam1(0)
+    }
+  }
+  const clearMath = () => {
+    setParam1(0);
+    setParam2(0);
+    setIsParam1Done(false);
+    setOpt("");
+  }
+  const calculate = () => {
+
+  }
   return (
     <table>
       <tr>
@@ -31,7 +101,7 @@ const Keyboard = ({
           </Button>
         </td>
         <td>
-          <Button shape="circle">&lArr;</Button>
+          <Button onClick={() => onDelete()} shape="circle">&lArr;</Button>
         </td>
         <td>
           <Button onClick={() => setOpt("divide")} shape="circle">
@@ -107,7 +177,7 @@ const Keyboard = ({
       </tr>
       <tr>
         <td>
-          <Button shape="circle">C</Button>
+          <Button shape="circle" onClick={() => clearMath()}>C</Button>
         </td>
         <td>
           <Button onClick={() => onNumClick(0)} shape="circle">
@@ -115,7 +185,7 @@ const Keyboard = ({
           </Button>
         </td>
         <td colspan="2">
-          <Button shape="round" type="primary" style={{ width: "100%" }}>
+          <Button shape="round" onClick={() => calculate()} type="primary" style={{ width: "100%" }}>
             =
           </Button>
         </td>
