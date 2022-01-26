@@ -13,9 +13,9 @@ const Monitor = ({param1, param2, opt, isParam1Done}) => {
         }
     }, [param1, param2, opt]);
     return (
-        <div>
-            <span>{mathText}</span>
-            <span>{isParam1Done ? param2 : param1 }</span>
+        <div style={{border: "1px solid", borderBottom: 0}}>
+            <div>{mathText}</div>
+            <div style={{fontSize: "20px", textAlign: "right"}}> {param2 ? param2 : param1 }</div>
         </div>
     );
 }
